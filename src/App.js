@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { fetchCategories } from "./actions";
 
-function App() {
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Navbar } from "./components/Navbar";
+
+import { Grid } from "@mui/material";
+
+import Categories from "./components/Categories";
+import Products from "./components/Products";
+
+const App = (props) => {
+  useEffect(() => {
+    props.fetchCategories();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <Grid
+        container
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: "#F8F8F8",
+        }}
+      >
+        <Categories />
+        <Products />
+      </Grid>
+    </>
   );
-}
+};
+const mapStateToProps = (state) => {
+  return {
+    state
+  };
+};
 
-export default App;
+export default connect(mapStateToProps, {
+  fetchCategories,
+})(App);
